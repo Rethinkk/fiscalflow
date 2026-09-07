@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fiscale Cockpit</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Fiscale cockpit</p>
+        <h1>Van bank en factuur naar btw en winst</h1>
+      </div>
+      <div class="period-switch" aria-label="Aangifteperiode">
+        <button class="is-active" type="button">Q3 2026</button>
+        <button type="button">Q4 2026</button>
+      </div>
+    </header>
+
+    <main class="shell">
+      <aside class="side-nav" aria-label="Hoofdmenu">
+        <a class="nav-item is-active" href="#dashboard">
+          <span class="nav-icon" aria-hidden="true">D</span>
+          Dashboard
+        </a>
+        <a class="nav-item" href="#inbox">
+          <span class="nav-icon" aria-hidden="true">I</span>
+          Inbox
+        </a>
+        <a class="nav-item" href="#matching">
+          <span class="nav-icon" aria-hidden="true">M</span>
+          Matching
+        </a>
+        <a class="nav-item" href="#btw">
+          <span class="nav-icon" aria-hidden="true">B</span>
+          Btw
+        </a>
+        <a class="nav-item" href="#audit">
+          <span class="nav-icon" aria-hidden="true">A</span>
+          Audit
+        </a>
+      </aside>
+
+      <section class="content" id="dashboard">
+        <section class="summary-grid" aria-label="Samenvatting">
+          <article class="metric">
+            <span class="metric-label">Te betalen btw</span>
+            <strong id="vatPayable">EUR 0</strong>
+            <small>Voorlopige aangiftepositie</small>
+          </article>
+          <article class="metric">
+            <span class="metric-label">Winstimpact</span>
+            <strong id="profitImpact">EUR 0</strong>
+            <small>Omzet minus zakelijke kosten</small>
+          </article>
+          <article class="metric">
+            <span class="metric-label">Automatisch verwerkt</span>
+            <strong id="automationRate">0%</strong>
+            <small>Confidence boven drempel</small>
+          </article>
+          <article class="metric warning">
+            <span class="metric-label">Actie nodig</span>
+            <strong id="needsReview">0</strong>
+            <small>Controle voor aangifte</small>
+          </article>
+        </section>
+
+        <section class="workbench">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Nieuwe documenten</h2>
+                <p>Sleep inkoop, verkoop en bonnetjes naar de fiscale inbox.</p>
+              </div>
+              <label class="upload-button">
+                <input id="fileInput" type="file" multiple accept=".pdf,.png,.jpg,.jpeg">
+                Upload
+              </label>
+            </div>
+            <div class="dropzone" id="dropzone">
+              <div class="document-stack" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <strong>Facturen dumpen</strong>
+              <p>De demo simuleert herkenning en maakt direct fiscale voorstellen.</p>
+            </div>
+            <div class="queue" id="queue"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Bankfeed</h2>
+                <p>Bankmutaties zijn de basis voor betaald, ontvangen en prive.</p>
+              </div>
+              <button class="icon-button" id="syncBank" type="button" aria-label="Bankfeed synchroniseren">↻</button>
+            </div>
+            <div class="transaction-list" id="transactions"></div>
+          </div>
+        </section>
+
+        <section class="review-layout" id="matching">
+          <div class="panel wide">
+            <div class="panel-head">
+              <div>
+                <h2>Fiscale voorstellen</h2>
+                <p>Alleen afwijkingen en lage zekerheid vragen handmatige bevestiging.</p>
+              </div>
+              <div class="toolbar">
+                <button type="button" data-filter="all" class="is-active">Alles</button>
+                <button type="button" data-filter="review">Review</button>
+                <button type="button" data-filter="auto">Auto</button>
+              </div>
+            </div>
+            <div class="proposal-table" role="table" aria-label="Fiscale voorstellen">
+              <div class="table-row table-head" role="row">
+                <span>Bron</span>
+                <span>Voorstel</span>
+                <span>Btw</span>
+                <span>Status</span>
+                <span></span>
+              </div>
+              <div id="proposals"></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Open posten</h2>
+                <p>Niet als administratie, maar als fiscale objecten.</p>
+              </div>
+            </div>
+            <div class="open-items" id="openItems"></div>
+          </div>
+        </section>
+
+        <section class="btw-band" id="btw">
+          <div>
+            <h2>Btw-aangifte concept</h2>
+            <p>Gebaseerd op gefactureerde omzet, aftrekbare voorbelasting en controlesignalen.</p>
+          </div>
+          <div class="vat-lines" id="vatLines"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
