@@ -1,65 +1,67 @@
-# Fiscale Cockpit MVP
+# FiscalFlow MVP
 
-Dit is een lokaal prototype voor een boekhoudarme fiscale cockpit.
+FiscalFlow is a local prototype for a bookkeeping-light fiscal cockpit.
 
-Het uitgangspunt:
+The core idea:
 
-- Bankmutaties zijn de basis voor werkelijke geldstromen.
-- Facturen en bonnetjes zijn de bewijslaag.
-- AI/OCR doet fiscale classificatie: zakelijk, prive, investering, btw-code en periode.
-- De ondernemer ziet alleen uitzonderingen, open posten en aangifte-impact.
-- Een klassieke boekhouding kan op de achtergrond worden gegenereerd als export of auditspoor.
+- Bank transactions are the anchor for real cash movement.
+- Invoices and receipts are the evidence layer.
+- AI/OCR performs fiscal classification: business, private, capital expenditure, VAT code and period.
+- The entrepreneur only sees exceptions, open items and tax return impact.
+- A traditional ledger can still be generated in the background for export, audit or accountant workflows.
 
-## Lokale start
+## Local Start
 
-Open `index.html` direct in de browser of start een eenvoudige server:
+Open `index.html` directly in a browser or start a simple local server:
 
 ```bash
 python3 -m http.server 4173
 ```
 
-Daarna staat de app op `http://localhost:4173`.
+The app will be available at `http://localhost:4173`.
 
-## Eerste echte bouwblokken
+## First Real Building Blocks
 
-1. Documentopslag per klant
-   - Afgesloten bucket/map per onderneming.
-   - Versleuteling, bewaartermijnen en auditlog.
+1. Document storage per customer
+   - Isolated bucket or folder per business entity.
+   - Encryption, retention rules and audit logs.
 
-2. Extractie
-   - PDF tekstextractie voor digitale facturen.
-   - OCR voor scans en foto's.
-   - Normalisatie naar factuurregels, totalen en btw-bedragen.
+2. Extraction
+   - PDF text extraction for digital invoices.
+   - OCR for scans and photos.
+   - Normalization into invoice lines, totals and VAT amounts.
 
-3. Fiscale classificatie
-   - Leverancier/Klant herkenning.
-   - Grootboekachtige fiscale categorie.
-   - Btw-code.
-   - Periode/datum.
-   - Confidence score en reden bij twijfel.
+3. Fiscal classification
+   - Counterparty recognition.
+   - Fiscal category.
+   - VAT code.
+   - Tax period and document date.
+   - Confidence score and review reason.
 
-4. Bankmatching
-   - Match op bedrag, IBAN, naam, factuurnummer en datum.
-   - Openstaand als factuur nog niet betaald is.
-   - Onverklaarde bankmutatie als betaling geen bewijs heeft.
+4. Bank matching
+   - Match on amount, IBAN, name, invoice number and date.
+   - Open item when an invoice has not been paid yet.
+   - Unexplained bank transaction when payment has no evidence.
 
-5. Aangifte-output
-   - Btw rubrieken.
-   - Winstberekening.
-   - Investeringen en afschrijvingen.
-   - Prive/opname/storting.
-   - Export naar accountant of boekhoudpakket.
+5. Tax return output
+   - VAT return boxes.
+   - Profit calculation.
+   - Capital expenditure and depreciation.
+   - Owner withdrawals and contributions.
+   - Export to accountant or accounting software.
 
-## Minimale datavelden
+## Minimum Data Shape
 
 ```json
 {
   "document_id": "doc_123",
   "tenant_id": "company_123",
+  "country": "NL",
   "source_type": "purchase_invoice",
-  "counterparty": "KPN Mobiel BV",
+  "counterparty": "KPN Mobile BV",
   "invoice_number": "F2026-001",
   "invoice_date": "2026-07-14",
+  "tax_period": "2026-Q3",
   "amount_including_vat": -84.7,
   "amount_excluding_vat": -70.0,
   "vat_amount": 14.7,
@@ -71,6 +73,29 @@ Daarna staat de app op `http://localhost:4173`.
 }
 ```
 
-## Productlijn
+## Internationalization Principle
 
-De eerste productversie moet niet proberen om alle boekhoudscenario's op te lossen. Begin met Nederlandse zzp'ers en kleine BV's met normale factuurstromen, bankkoppeling, btw 21/9/0, verlegd, investeringen en privecorrecties.
+Build the core platform in English and make countries adapters, not forks.
+
+Suggested structure for future implementation:
+
+```text
+core/
+  documents/
+  bank-transactions/
+  evidence/
+  classification/
+  reviews/
+  tax-returns/
+countries/
+  nl/
+  de/
+  be/
+  uk/
+```
+
+The Dutch layer should define local rules and labels, for example VAT return boxes, Dutch VAT codes, IB/VPB-specific logic and local audit wording. The core data model should stay English.
+
+## Product Scope
+
+The first product version should not try to solve every accounting scenario. Start with Dutch freelancers and small limited companies with normal invoice flows, bank matching, VAT 21/9/0, reverse charge, capital expenditure and owner transactions.

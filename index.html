@@ -1,18 +1,18 @@
 <!doctype html>
-<html lang="nl">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fiscale Cockpit</title>
+    <title>FiscalFlow</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <header class="app-header">
       <div>
-        <p class="eyebrow">Fiscale cockpit</p>
-        <h1>Van bank en factuur naar btw en winst</h1>
+        <p class="eyebrow">FiscalFlow cockpit</p>
+        <h1>From bank data and invoices to tax-ready evidence</h1>
       </div>
-      <div class="period-switch" aria-label="Aangifteperiode">
+      <div class="period-switch" aria-label="Tax period">
         <button class="is-active" type="button">Q3 2026</button>
         <button type="button">Q4 2026</button>
       </div>
@@ -32,9 +32,9 @@
           <span class="nav-icon" aria-hidden="true">M</span>
           Matching
         </a>
-        <a class="nav-item" href="#btw">
+        <a class="nav-item" href="#vat">
           <span class="nav-icon" aria-hidden="true">B</span>
-          Btw
+          VAT
         </a>
         <a class="nav-item" href="#audit">
           <span class="nav-icon" aria-hidden="true">A</span>
@@ -43,26 +43,26 @@
       </aside>
 
       <section class="content" id="dashboard">
-        <section class="summary-grid" aria-label="Samenvatting">
+        <section class="summary-grid" aria-label="Summary">
           <article class="metric">
-            <span class="metric-label">Te betalen btw</span>
+            <span class="metric-label">VAT payable</span>
             <strong id="vatPayable">EUR 0</strong>
-            <small>Voorlopige aangiftepositie</small>
+            <small>Draft return position</small>
           </article>
           <article class="metric">
-            <span class="metric-label">Winstimpact</span>
+            <span class="metric-label">Profit impact</span>
             <strong id="profitImpact">EUR 0</strong>
-            <small>Omzet minus zakelijke kosten</small>
+            <small>Revenue minus business costs</small>
           </article>
           <article class="metric">
-            <span class="metric-label">Automatisch verwerkt</span>
+            <span class="metric-label">Auto processed</span>
             <strong id="automationRate">0%</strong>
-            <small>Confidence boven drempel</small>
+            <small>Confidence above threshold</small>
           </article>
           <article class="metric warning">
-            <span class="metric-label">Actie nodig</span>
+            <span class="metric-label">Needs action</span>
             <strong id="needsReview">0</strong>
-            <small>Controle voor aangifte</small>
+            <small>Review before filing</small>
           </article>
         </section>
 
@@ -70,8 +70,8 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>Nieuwe documenten</h2>
-                <p>Sleep inkoop, verkoop en bonnetjes naar de fiscale inbox.</p>
+                <h2>New documents</h2>
+                <p>Drop purchase invoices, sales invoices and receipts into the fiscal inbox.</p>
               </div>
               <label class="upload-button">
                 <input id="fileInput" type="file" multiple accept=".pdf,.png,.jpg,.jpeg">
@@ -82,8 +82,8 @@
               <div class="document-stack" aria-hidden="true">
                 <span></span><span></span><span></span>
               </div>
-              <strong>Facturen dumpen</strong>
-              <p>De demo simuleert herkenning en maakt direct fiscale voorstellen.</p>
+              <strong>Drop invoices</strong>
+              <p>The demo simulates extraction and creates fiscal proposals instantly.</p>
             </div>
             <div class="queue" id="queue"></div>
           </div>
@@ -91,10 +91,10 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>Bankfeed</h2>
-                <p>Bankmutaties zijn de basis voor betaald, ontvangen en prive.</p>
+                <h2>Bank feed</h2>
+                <p>Bank transactions anchor payments, receipts and owner activity.</p>
               </div>
-              <button class="icon-button" id="syncBank" type="button" aria-label="Bankfeed synchroniseren">↻</button>
+              <button class="icon-button" id="syncBank" type="button" aria-label="Sync bank feed">R</button>
             </div>
             <div class="transaction-list" id="transactions"></div>
           </div>
@@ -104,20 +104,20 @@
           <div class="panel wide">
             <div class="panel-head">
               <div>
-                <h2>Fiscale voorstellen</h2>
-                <p>Alleen afwijkingen en lage zekerheid vragen handmatige bevestiging.</p>
+                <h2>Fiscal proposals</h2>
+                <p>Only exceptions and low confidence cases require manual confirmation.</p>
               </div>
               <div class="toolbar">
-                <button type="button" data-filter="all" class="is-active">Alles</button>
+                <button type="button" data-filter="all" class="is-active">All</button>
                 <button type="button" data-filter="review">Review</button>
                 <button type="button" data-filter="auto">Auto</button>
               </div>
             </div>
-            <div class="proposal-table" role="table" aria-label="Fiscale voorstellen">
+            <div class="proposal-table" role="table" aria-label="Fiscal proposals">
               <div class="table-row table-head" role="row">
-                <span>Bron</span>
-                <span>Voorstel</span>
-                <span>Btw</span>
+                <span>Source</span>
+                <span>Proposal</span>
+                <span>VAT</span>
                 <span>Status</span>
                 <span></span>
               </div>
@@ -128,18 +128,18 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <h2>Open posten</h2>
-                <p>Niet als administratie, maar als fiscale objecten.</p>
+                <h2>Open items</h2>
+                <p>Tracked as fiscal objects, not bookkeeping chores.</p>
               </div>
             </div>
             <div class="open-items" id="openItems"></div>
           </div>
         </section>
 
-        <section class="btw-band" id="btw">
+        <section class="vat-band" id="vat">
           <div>
-            <h2>Btw-aangifte concept</h2>
-            <p>Gebaseerd op gefactureerde omzet, aftrekbare voorbelasting en controlesignalen.</p>
+            <h2>Draft VAT return</h2>
+            <p>Based on invoiced revenue, recoverable input VAT and control signals.</p>
           </div>
           <div class="vat-lines" id="vatLines"></div>
         </section>
