@@ -9,6 +9,12 @@ export type OpenItemType =
   | "accounts_payable"
   | "capital_expenditure";
 
+export type BalanceProposalType =
+  | "fixed_asset_addition"
+  | "owner_equity_movement";
+
+export type BalanceProposalStatus = "proposed" | "review_required";
+
 export interface BusinessEntity {
   id: string;
   name: string;
@@ -53,6 +59,21 @@ export interface VatReturnLine {
   code: string;
   label: string;
   amount: number;
+}
+
+export interface BalanceAdjustmentProposal {
+  id: string;
+  type: BalanceProposalType;
+  status: BalanceProposalStatus;
+  sourceId: string;
+  title: string;
+  description: string;
+  amount: number;
+  date: string;
+  balanceImpact: string;
+  profitImpact: string;
+  taxImpact: string;
+  confidence: number;
 }
 
 export interface FiscalSummary {

@@ -2,6 +2,7 @@ import { createNlVatReturnLines } from "./src/countries/nl/vatReturn.js";
 import { getFiscalCategory } from "./src/countries/nl/fiscalCategories.js";
 import { getVatCode } from "./src/countries/nl/vatCodes.js";
 import { initialState } from "./src/data/demoData.js";
+import { createBalanceAdjustmentProposals } from "./src/services/balanceAdjustmentService.js";
 import { classifyUploadedFile } from "./src/services/documentService.js";
 import { calculateFiscalSummary } from "./src/services/fiscalSummaryService.js";
 import { approveProposal, syncBankFeed } from "./src/services/workflowService.js";
@@ -80,6 +81,27 @@ function renderOpenItems() {
     .join("");
 }
 
+function renderBalanceProposals() {
+  document.querySelector("#balanceProposals").innerHTML = createBalanceAdjustmentProposals(state)
+    .map((proposal) => `
+      <article class="balance-proposal">
+        <div>
+          <strong>${proposal.title}</strong>
+          <div class="source-meta">${proposal.description} | ${formatDate(proposal.date)}</div>
+          <ul>
+            <li>${proposal.balanceImpact}</li>
+            <li>${proposal.profitImpact}</li>
+            <li>${proposal.taxImpact}</li>
+          </ul>
+        </div>
+        <span class="badge ${proposal.status === "review_required" ? "review" : ""}">
+          ${proposal.status === "proposed" ? "Proposed" : "Review"}
+        </span>
+      </article>
+    `)
+    .join("");
+}
+
 function renderVatLines() {
   document.querySelector("#vatLines").innerHTML = createNlVatReturnLines(state.documents)
     .map((line) => `
@@ -116,6 +138,7 @@ function render() {
   renderTransactions();
   renderProposals();
   renderOpenItems();
+  renderBalanceProposals();
   renderVatLines();
 }
 
@@ -166,7 +189,7 @@ document.querySelector("#proposals").addEventListener("click", (event) => {
 
 document.querySelector("#syncBank").addEventListener("click", () => {
   syncBankFeed(state);
-  renderTransactions();
+  render();
 });
 
 render();

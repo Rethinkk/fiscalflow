@@ -37,6 +37,7 @@ src/
   domain/
     types.ts
   services/
+    balanceAdjustmentService.js
     documentService.js
     fiscalSummaryService.js
     workflowService.js
@@ -73,6 +74,12 @@ src/
    - Capital expenditure and depreciation.
    - Owner withdrawals and contributions.
    - Export to accountant or accounting software.
+
+6. Balance adjustment proposals
+   - Capital purchases create fixed asset proposals.
+   - Depreciation schedules are prepared behind the scenes.
+   - Owner withdrawals and contributions are kept out of profit.
+   - Balance impact is generated from evidence, not manually entered as bookkeeping.
 
 ## Minimum Data Shape
 
@@ -119,6 +126,19 @@ countries/
 ```
 
 The Dutch layer should define local rules and labels, for example VAT return boxes, Dutch VAT codes, IB/VPB-specific logic and local audit wording. The core data model should stay English.
+
+## Balance Philosophy
+
+FiscalFlow does not ask the entrepreneur to maintain a balance sheet manually. Instead, it derives balance adjustment proposals from documents and bank transactions.
+
+Examples:
+
+- A hardware purchase becomes a fixed asset proposal.
+- The VAT impact can be handled immediately.
+- The profit impact moves through depreciation.
+- An unmatched owner withdrawal becomes an owner equity movement proposal.
+
+The entrepreneur sees decisions, not bookkeeping mechanics. The accountant can still inspect the generated proposals and audit trail.
 
 ## Next Technical Step
 
