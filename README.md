@@ -20,6 +20,30 @@ python3 -m http.server 4173
 
 The app will be available at `http://localhost:4173`.
 
+## Current Architecture
+
+This MVP is intentionally buildless for now. Vercel can serve it directly, while the codebase already has a real separation between UI, domain contracts, services and country-specific tax rules.
+
+```text
+app.js
+src/
+  countries/
+    nl/
+      fiscalCategories.js
+      vatCodes.js
+      vatReturn.js
+  data/
+    demoData.js
+  domain/
+    types.ts
+  services/
+    documentService.js
+    fiscalSummaryService.js
+    workflowService.js
+```
+
+`src/domain/types.ts` defines the intended TypeScript contracts for the platform. The runtime still uses native browser ES modules, so no build step is required yet.
+
 ## First Real Building Blocks
 
 1. Document storage per customer
@@ -95,6 +119,17 @@ countries/
 ```
 
 The Dutch layer should define local rules and labels, for example VAT return boxes, Dutch VAT codes, IB/VPB-specific logic and local audit wording. The core data model should stay English.
+
+## Next Technical Step
+
+The next conversion step is to introduce a full TypeScript application runtime once backend choices are clear:
+
+- Next.js or another React app shell.
+- Persistent storage.
+- Authentication and tenant separation.
+- Real document ingestion.
+- OCR/extraction provider integration.
+- Bank connection provider integration.
 
 ## Product Scope
 
