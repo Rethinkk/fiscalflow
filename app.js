@@ -5,6 +5,7 @@ import { initialState } from "./src/data/demoData.js";
 import { createBalanceAdjustmentProposals } from "./src/services/balanceAdjustmentService.js";
 import { classifyUploadedFile } from "./src/services/documentService.js";
 import { calculateFiscalSummary } from "./src/services/fiscalSummaryService.js";
+import { createProfitLossStatement } from "./src/services/profitLossService.js";
 import { approveProposal, syncBankFeed } from "./src/services/workflowService.js";
 
 const state = structuredClone(initialState);
@@ -113,6 +114,48 @@ function renderVatLines() {
     .join("");
 }
 
+function renderStatementSection(section) {
+  const lines = section.lines.length
+    ? section.lines
+    : [{ code: "empty", label: "No lines", amount: 0 }];
+
+  return `
+    <article class="statement-section">
+      <header>
+        <strong>${section.title}</strong>
+        <strong>${formatCurrency(section.total)}</strong>
+      </header>
+      ${lines
+        .map((line) => `
+          <div class="statement-line">
+            <span>${line.label}</span>
+            <span>${formatCurrency(line.amount)}</span>
+          </div>
+        `)
+        .join("")}
+      <div class="statement-total">
+        <span>Total ${section.title.toLowerCase()}</span>
+        <span>${formatCurrency(section.total)}</span>
+      </div>
+    </article>
+  `;
+}
+
+function renderProfitLossStatement() {
+  const statement = createProfitLossStatement(state);
+  document.querySelector("#profitLossOutput").innerHTML = `
+    ${renderStatementSection(statement.revenue)}
+    ${renderStatementSection(statement.expenses)}
+    ${renderStatementSection(statement.depreciation)}
+    <article class="statement-section net-profit">
+      <div class="statement-line">
+        <span>Net profit for ${statement.period}</span>
+        <span>${formatCurrency(statement.netProfit)}</span>
+      </div>
+    </article>
+  `;
+}
+
 function renderQueue(files = []) {
   const queue = document.querySelector("#queue");
   if (!files.length) {
@@ -190,6 +233,10 @@ document.querySelector("#proposals").addEventListener("click", (event) => {
 document.querySelector("#syncBank").addEventListener("click", () => {
   syncBankFeed(state);
   render();
+});
+
+document.querySelector("#generateProfitLoss").addEventListener("click", () => {
+  renderProfitLossStatement();
 });
 
 render();

@@ -83,6 +83,27 @@ export interface FiscalSummary {
   needsReview: number;
 }
 
+export interface ProfitLossLine {
+  code: string;
+  label: string;
+  amount: number;
+}
+
+export interface ProfitLossSection {
+  title: string;
+  lines: ProfitLossLine[];
+  total: number;
+}
+
+export interface ProfitLossStatement {
+  period: string;
+  generatedAt: string;
+  revenue: ProfitLossSection;
+  expenses: ProfitLossSection;
+  depreciation: ProfitLossSection;
+  netProfit: number;
+}
+
 export interface AppState {
   businessEntity: BusinessEntity;
   filter: "all" | ProposalStatus;

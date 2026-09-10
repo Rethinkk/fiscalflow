@@ -40,6 +40,7 @@ src/
     balanceAdjustmentService.js
     documentService.js
     fiscalSummaryService.js
+    profitLossService.js
     workflowService.js
 ```
 
@@ -80,6 +81,12 @@ src/
    - Depreciation schedules are prepared behind the scenes.
    - Owner withdrawals and contributions are kept out of profit.
    - Balance impact is generated from evidence, not manually entered as bookkeeping.
+
+7. Profit and loss statement
+   - Generated on demand from classified revenue and expenses.
+   - Capital purchases are excluded from direct expenses.
+   - Depreciation can be included from fixed asset proposals.
+   - The statement is a presentation layer over the fiscal data model.
 
 ## Minimum Data Shape
 
@@ -139,6 +146,19 @@ Examples:
 - An unmatched owner withdrawal becomes an owner equity movement proposal.
 
 The entrepreneur sees decisions, not bookkeeping mechanics. The accountant can still inspect the generated proposals and audit trail.
+
+## Reporting Principle
+
+Reports should be generated from the fiscal evidence layer, not maintained manually.
+
+The first report is a profit and loss statement:
+
+- Revenue from sales invoices.
+- Operating expenses from direct cost classifications.
+- Depreciation from fixed asset proposals.
+- Net profit as a derived figure.
+
+This keeps reporting consistent with the "clean by default, detailed on demand" product direction.
 
 ## Next Technical Step
 
