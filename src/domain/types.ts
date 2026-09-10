@@ -15,6 +15,14 @@ export type BalanceProposalType =
 
 export type BalanceProposalStatus = "proposed" | "review_required";
 
+export type CashCategory =
+  | "customer_receipt"
+  | "supplier_payment"
+  | "owner_equity_movement"
+  | "net_salary"
+  | "payroll_taxes_social_security"
+  | "unclassified";
+
 export interface BusinessEntity {
   id: string;
   name: string;
@@ -44,6 +52,7 @@ export interface BankTransaction {
   name: string;
   amount: number;
   matched: boolean;
+  cashCategory?: CashCategory;
 }
 
 export interface OpenItem {

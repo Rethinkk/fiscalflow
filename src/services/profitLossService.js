@@ -1,5 +1,6 @@
 import { getFiscalCategory } from "../countries/nl/fiscalCategories.js";
 import { createBalanceAdjustmentProposals } from "./balanceAdjustmentService.js";
+import { createPayrollExpenseLines } from "./payrollService.js";
 
 function signedNetAmount(documentItem) {
   const amount = Math.abs(documentItem.amountIncludingVat) - documentItem.vatAmount;
@@ -23,7 +24,10 @@ function groupLines(documents, profitTreatment) {
       grouped.set(documentItem.fiscalCategory, current);
     });
 
-  return [...grouped.values()];
+  return [...grouped.values()].map((line) => ({
+    ...line,
+    amount: roundMoney(line.amount)
+  }));
 }
 
 function quarterEndDate(taxPeriod) {
@@ -76,7 +80,8 @@ export function createProfitLossStatement(state) {
   const revenueLines = groupLines(state.documents, "revenue");
   const directCostLines = [
     ...groupLines(state.documents, "direct_cost"),
-    ...groupLines(state.documents, "limited_deductible_cost")
+    ...groupLines(state.documents, "limited_deductible_cost"),
+    ...createPayrollExpenseLines(state.transactions)
   ];
   const depreciationLines = createDepreciationLines(state);
 

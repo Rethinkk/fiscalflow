@@ -51,7 +51,7 @@ export function createBalanceAdjustmentProposals(state) {
     .map(createFixedAssetProposal);
 
   const ownerMovementProposals = state.transactions
-    .filter((transaction) => !transaction.matched && transaction.amount < 0)
+    .filter((transaction) => transaction.cashCategory === "owner_equity_movement" && transaction.amount < 0)
     .map(createOwnerEquityProposal);
 
   return [...fixedAssetProposals, ...ownerMovementProposals];

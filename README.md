@@ -40,6 +40,7 @@ src/
     balanceAdjustmentService.js
     documentService.js
     fiscalSummaryService.js
+    payrollService.js
     profitLossService.js
     workflowService.js
 ```
@@ -86,6 +87,7 @@ src/
    - Generated on demand from classified revenue and expenses.
    - Capital purchases are excluded from direct expenses.
    - Depreciation can be included from fixed asset proposals.
+   - Payroll expenses can be derived from bank transactions.
    - The statement is a presentation layer over the fiscal data model.
 
 ## Minimum Data Shape
@@ -155,6 +157,8 @@ The first report is a profit and loss statement:
 
 - Revenue from sales invoices.
 - Operating expenses from direct cost classifications.
+- Net salaries from employee bank payments.
+- Payroll taxes and social security from tax authority payments.
 - Depreciation from fixed asset proposals.
 - Net profit as a derived figure.
 

@@ -67,11 +67,13 @@ export const initialState = {
     }
   ],
   transactions: [
-    { id: "bank-1", date: "2026-07-16", name: "KPN Mobile", amount: -84.7, matched: true },
-    { id: "bank-2", date: "2026-08-09", name: "Studio North payment", amount: 1815, matched: true },
-    { id: "bank-3", date: "2026-08-18", name: "Apple Store Amsterdam", amount: -1451.99, matched: true },
-    { id: "bank-4", date: "2026-09-01", name: "Market Restaurant", amount: -126.4, matched: true },
-    { id: "bank-5", date: "2026-09-02", name: "Owner withdrawal", amount: -300, matched: false }
+    { id: "bank-1", date: "2026-07-16", name: "KPN Mobile", amount: -84.7, matched: true, cashCategory: "supplier_payment" },
+    { id: "bank-2", date: "2026-08-09", name: "Studio North payment", amount: 1815, matched: true, cashCategory: "customer_receipt" },
+    { id: "bank-3", date: "2026-08-18", name: "Apple Store Amsterdam", amount: -1451.99, matched: true, cashCategory: "supplier_payment" },
+    { id: "bank-4", date: "2026-09-01", name: "Market Restaurant", amount: -126.4, matched: true, cashCategory: "supplier_payment" },
+    { id: "bank-5", date: "2026-09-02", name: "Owner withdrawal", amount: -300, matched: false, cashCategory: "owner_equity_movement" },
+    { id: "bank-6", date: "2026-09-25", name: "Salary payment - A. Jansen", amount: -2200, matched: true, cashCategory: "net_salary" },
+    { id: "bank-7", date: "2026-09-30", name: "Dutch Tax Administration payroll taxes", amount: -860, matched: true, cashCategory: "payroll_taxes_social_security" }
   ],
   openItems: [
     {

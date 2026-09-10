@@ -15,7 +15,8 @@ export function syncBankFeed(state) {
       date: new Date().toISOString().slice(0, 10),
       name: "New bank transaction",
       amount: -49.95,
-      matched: false
+      matched: false,
+      cashCategory: "unclassified"
     },
     ...state.transactions
   ];
